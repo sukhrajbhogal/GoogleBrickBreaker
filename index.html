@@ -19,7 +19,6 @@
 </head>
 
 <body>
-
 <canvas id="myCanvas" width="1440" height="640"></canvas>
 
 <script text='text/javascript'>
@@ -27,6 +26,8 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var ball = new Object();
+var img = new Image();
+img.src = "images/bar.png";
 ball.radius = 10;
 //Ball position
 ball.x = canvas.width / 2;
@@ -34,8 +35,8 @@ ball.y = canvas.height - 30;
 ball.dx = 2;
 ball.dy = -2;
 var paddle = Object();
-paddle.height = 10;
-paddle.width = 100;
+paddle.height = 65;
+paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
 var rightPressed = false;
 var leftPressed = false;
@@ -119,8 +120,7 @@ function drawBall() {
 }
 function drawPaddle() {
     ctx.beginPath();
-    ctx.rect(paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
-    ctx.fillStyle = "#0095DD";
+    ctx.drawImage(img, paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
     ctx.fill();
     ctx.closePath();
 }
