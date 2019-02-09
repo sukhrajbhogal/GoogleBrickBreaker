@@ -13,14 +13,17 @@
 <canvas id="myCanvas" width="1440" height="640"></canvas>
 
 <script>
+    //Get the canvas area. Set constants
 	var canvas = document.getElementById("myCanvas");
-	var ctx = canvas.getContext("2d");
-	var ballRadius = 10;
-	var x = canvas.width/2;
-	var y = canvas.height-30;
-	var dx = 2;
-	var dy = -2;
-	var paddleHeight = 15;
+    var ctx = canvas.getContext("2d");
+    var ball = new Object();
+    ball.radius = 10;
+    //Ball position
+	ball.x = canvas.width/2;
+	ball.y = canvas.height-30;
+	ball.dx = 2;
+	ball.dy = -2;
+	var paddleHeight = 10;
 	var paddleWidth = 100;
 	var paddleX = (canvas.width-paddleWidth)/2;
 	var rightPressed = false;
@@ -35,6 +38,7 @@
 	var score = 0;
 	var lives = 1;
 
+    //Initialize bricks
 	var bricks = [];
 	for(var c=0; c<brickColumnCount; c++) {
 	  bricks[c] = [];
@@ -43,6 +47,7 @@
 	  }
 	}
 
+    //Add controls
 	document.addEventListener("keydown", keyDownHandler, false);
 	document.addEventListener("keyup", keyUpHandler, false);
 	document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -70,14 +75,16 @@
 	  if(relativeX > 0 && relativeX < canvas.width) {
 	    paddleX = relativeX - paddleWidth/2;
 	  }
-	}
+    }
+    
+    //Adding collision for bricks
 	function collisionDetection() {
 	  for(var c=0; c<brickColumnCount; c++) {
 	    for(var r=0; r<brickRowCount; r++) {
 	      var b = bricks[c][r];
 	      if(b.status == 1) {
-	        if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-	          dy = -dy;
+	        if(ball.x > b.x && ball.x < b.x+brickWidth && ball.y > b.y && ball.y < b.y+brickHeight) {
+	          ball.dy = -ball.dy;
 	          b.status = 0;
 	          score++;
 	          if(score == brickRowCount*brickColumnCount) {
@@ -90,9 +97,10 @@
 	  }
 	}
 
+    //Draw all the objects
 	function drawBall() {
 	  ctx.beginPath();
-	  ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+	  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2);
 	  ctx.fillStyle = "#0095DD";
 	  ctx.fill();
 	  ctx.closePath();
@@ -132,7 +140,9 @@
 	  ctx.fillText("Lives: "+lives, canvas.width-65, 20);
 	}
 
+    //Main loop
 	function draw() {
+        //Refresh and draw all canvas objects
 	  ctx.clearRect(0, 0, canvas.width, canvas.height);
 	  drawBricks();
 	  drawBall();
@@ -141,15 +151,15 @@
 	  drawLives();
 	  collisionDetection();
 
-	  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-	    dx = -dx;
+	  if(ball.x + ball.dx > canvas.width-ball.radius || ball.x + ball.dx < ball.radius) {
+	    ball.dx = -ball.dx;
 	  }
-	  if(y + dy < ballRadius) {
-	    dy = -dy;
+	  if(ball.y + ball.dy < ball.radius) {
+	    ball.dy = -ball.dy;
 	  }
-	  else if(y + dy > canvas.height-ballRadius) {
-	    if(x > paddleX && x < paddleX + paddleWidth) {
-	      dy = -dy;
+	  else if(ball.y + ball.dy > canvas.height-ball.radius) {
+	    if(ball.x > paddleX && ball.x < paddleX + paddleWidth) {
+	      ball.dy = -ball.dy;
 	    }
 	    else {
 	      lives--;
@@ -158,10 +168,10 @@
 	        document.location.reload();
 	      }
 	      else {
-	        x = canvas.width/2;
-	        y = canvas.height-30;
-	        dx = 3;
-	        dy = -3;
+	        ball.x = canvas.width/2;
+	        ball.y = canvas.height-30;
+	        ball.dx = 3;
+	        ball.dy = -3;
 	        paddleX = (canvas.width-paddleWidth)/2;
 	      }
 	    }
@@ -174,8 +184,8 @@
 	    paddleX -= 7;
 	  }
 
-	  x += dx;
-	  y += dy;
+	  ball.x += ball.dx;
+	  ball.y += ball.dy;
 	  requestAnimationFrame(draw);
 	}
 
