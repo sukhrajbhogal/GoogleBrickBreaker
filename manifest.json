@@ -1,1 +1,6 @@
-Google Brick Breaker
+{
+	"name": "Google Brick Breaker",
+    "version": "1.0",
+    "description": "Make google searches fun with Brick Breaker!",
+    "manifest_version": 1
+}
