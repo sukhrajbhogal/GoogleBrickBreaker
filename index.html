@@ -22,27 +22,28 @@
 	ball.x = canvas.width/2;
 	ball.y = canvas.height-30;
 	ball.dx = 2;
-	ball.dy = -2;
-	var paddleHeight = 10;
-	var paddleWidth = 100;
-	var paddleX = (canvas.width-paddleWidth)/2;
+    ball.dy = -2;
+    var paddle = Object();
+	paddle.height = 10;
+	paddle.width = 100;
+	paddle.x = (canvas.width-paddle.width)/2;
 	var rightPressed = false;
 	var leftPressed = false;
-	var brickRowCount = 5;
-	var brickColumnCount = 3;
-	var brickWidth = 75;
-	var brickHeight = 20;
-	var brickPadding = 10;
-	var brickOffsetTop = 30;
-	var brickOffsetLeft = 30;
+	var BRICKROWCOUNT = 5;
+	var BRICKCOLUMNCOUNT = 3;
+	var BRICKWIDTH = 75;
+	var BRICKHEIGHT = 20;
+	var BRICKPADDING = 10;
+	var BRICKOFFSETTOP = 30;
+	var BRICKOFFSETLEFT = 30;
 	var score = 0;
 	var lives = 1;
 
     //Initialize bricks
 	var bricks = [];
-	for(var c=0; c<brickColumnCount; c++) {
+	for(var c=0; c<BRICKCOLUMNCOUNT; c++) {
 	  bricks[c] = [];
-	  for(var r=0; r<brickRowCount; r++) {
+	  for(var r=0; r<BRICKROWCOUNT; r++) {
 	    bricks[c][r] = { x: 0, y: 0, status: 1 };
 	  }
 	}
@@ -73,21 +74,21 @@
 	function mouseMoveHandler(e) {
 	  var relativeX = e.clientX - canvas.offsetLeft;
 	  if(relativeX > 0 && relativeX < canvas.width) {
-	    paddleX = relativeX - paddleWidth/2;
+	    paddle.x = relativeX - paddle.width/2;
 	  }
     }
     
     //Adding collision for bricks
 	function collisionDetection() {
-	  for(var c=0; c<brickColumnCount; c++) {
-	    for(var r=0; r<brickRowCount; r++) {
-	      var b = bricks[c][r];
-	      if(b.status == 1) {
-	        if(ball.x > b.x && ball.x < b.x+brickWidth && ball.y > b.y && ball.y < b.y+brickHeight) {
+	  for(var c=0; c<BRICKCOLUMNCOUNT; c++) {
+	    for(var r=0; r<BRICKROWCOUNT; r++) {
+	      var brick = bricks[c][r];
+	      if(brick.status == 1) {
+	        if(ball.x > brick.x && ball.x < brick.x+BRICKWIDTH && ball.y > brick.y && ball.y < brick.y+BRICKHEIGHT) {
 	          ball.dy = -ball.dy;
-	          b.status = 0;
+	          brick.status = 0;
 	          score++;
-	          if(score == brickRowCount*brickColumnCount) {
+	          if(score == BRICKROWCOUNT*BRICKCOLUMNCOUNT) {
 	            alert("YOU WIN, CONGRATS!");
 	            document.location.reload();
 	          }
@@ -107,21 +108,21 @@
 	}
 	function drawPaddle() {
 	  ctx.beginPath();
-	  ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+	  ctx.rect(paddle.x, canvas.height-paddle.height, paddle.width, paddle.height);
 	  ctx.fillStyle = "#0095DD";
 	  ctx.fill();
 	  ctx.closePath();
 	}
 	function drawBricks() {
-	  for(var c=0; c<brickColumnCount; c++) {
-	    for(var r=0; r<brickRowCount; r++) {
+	  for(var c=0; c<BRICKCOLUMNCOUNT; c++) {
+	    for(var r=0; r<BRICKROWCOUNT; r++) {
 	      if(bricks[c][r].status == 1) {
-	        var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
-	        var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
+	        var brickX = (r*(BRICKWIDTH+BRICKPADDING))+BRICKOFFSETLEFT;
+	        var brickY = (c*(BRICKHEIGHT+BRICKPADDING))+BRICKOFFSETTOP;
 	        bricks[c][r].x = brickX;
 	        bricks[c][r].y = brickY;
 	        ctx.beginPath();
-	        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+	        ctx.rect(brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
 	        ctx.fillStyle = "#0095DD";
 	        ctx.fill();
 	        ctx.closePath();
@@ -158,7 +159,7 @@
 	    ball.dy = -ball.dy;
 	  }
 	  else if(ball.y + ball.dy > canvas.height-ball.radius) {
-	    if(ball.x > paddleX && ball.x < paddleX + paddleWidth) {
+	    if(ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
 	      ball.dy = -ball.dy;
 	    }
 	    else {
@@ -172,16 +173,16 @@
 	        ball.y = canvas.height-30;
 	        ball.dx = 3;
 	        ball.dy = -3;
-	        paddleX = (canvas.width-paddleWidth)/2;
+	        paddle.x = (canvas.width-paddle.width)/2;
 	      }
 	    }
 	  }
 
-	  if(rightPressed && paddleX < canvas.width-paddleWidth) {
-	    paddleX += 7;
+	  if(rightPressed && paddle.x < canvas.width-paddle.width) {
+	    paddle.x += 7;
 	  }
-	  else if(leftPressed && paddleX > 0) {
-	    paddleX -= 7;
+	  else if(leftPressed && paddle.x > 0) {
+	    paddle.x -= 7;
 	  }
 
 	  ball.x += ball.dx;
