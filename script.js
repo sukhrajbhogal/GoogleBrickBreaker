@@ -1,8 +1,3 @@
-Edit in JSFiddle
-JavaScript
-HTML
-CSS
-Result
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
