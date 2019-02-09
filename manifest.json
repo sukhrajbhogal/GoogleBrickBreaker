@@ -1,1 +1,11 @@
-Google Brick Breaker
+{
+	"name": "Google Brick Breaker",
+    "version": "1.0",
+    "description": "Make google searches fun with Brick Breaker!",
+    "manifest_version": 2,
+    "minimum_chrome_version": "46",
+    "content_security_policy": "default-src 'self' script-src 'self' 'sha256-RJlekbn43pRlDAfjfty31rU0gehDvNjULdi3NFUlniM='",
+    "chrome_url_overrides": {
+    	"newtab": "index.html"
+    }
+}
