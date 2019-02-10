@@ -48,7 +48,7 @@ var BRICKHEIGHT = 20;
 var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
-
+var brickimg = [];
 var searchQuery = "Test lmfao";
 var searched = false;
 
@@ -106,6 +106,20 @@ function collisionDetection() {
     }
 }
 
+function makeImg() {
+	for (var i = 1; i < 27; i++) {
+		img2 = new Image();
+	    img_path = "images/brick";
+	    img_num = parseInt(r);
+	    jpg = ".jpg"; 
+	    img1 = img_path.concat(img_num);
+	    img2.src = img1.concat(jpg);
+	    brickimg.push(img2);
+	    consolelo
+	}
+		
+}
+
 //Draw all the objects
 function drawBall() {
     ctx.beginPath();
@@ -127,18 +141,12 @@ function drawBricks() {
     for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
         for (var r = 0; r < BRICKROWCOUNT; r++) {
             if (bricks[c][r].status == 1) {
-            	img2 = new Image();
-            	img_path = "images/brick";
-            	img_num = parseInt(r+1);
-            	jpg = ".jpg"; 
-            	img1 = img_path.concat(img_num);
-            	img2.src = img1.concat(jpg);
                 var brickX = (r * (BRICKWIDTH + BRICKPADDING)) + BRICKOFFSETLEFT;
                 var brickY = (c * (BRICKHEIGHT + BRICKPADDING)) + BRICKOFFSETTOP;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.drawImage(img2, brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
                 ctx.fill();
                 ctx.closePath();
             }
@@ -198,6 +206,7 @@ function draw() {
     }
 }
 
+makeImg();
 draw();
 </script>
 
