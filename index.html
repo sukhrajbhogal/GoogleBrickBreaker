@@ -19,7 +19,6 @@
 </head>
 
 <body>
-
 <canvas id="myCanvas" width="1440" height="640"></canvas>
 
 <script text='text/javascript'>
@@ -27,6 +26,8 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var ball = new Object(); //Position based on center
+var img = new Image();
+img.src = "images/bar.png";
 ball.radius = 10;
 //Ball position
 ball.x = canvas.width / 2;
@@ -35,8 +36,8 @@ ball.speed = 2;
 ball.dx = 2;
 ball.dy = -2;
 var paddle = Object(); //Position based on top left corner
-paddle.height = 10;
-paddle.width = 100;
+paddle.height = 65;
+paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
 var rightPressed = false;
 var leftPressed = false;
@@ -48,8 +49,7 @@ var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
 
-var score = 0;
-var lives = 1;
+var searchQuery = "Test lmfao";
 
 //Initialize bricks
 var bricks = [];
@@ -99,11 +99,6 @@ function collisionDetection() {
                 if (ball.x > brick.x && ball.x < brick.x + BRICKWIDTH && ball.y > brick.y && ball.y < brick.y + BRICKHEIGHT) {
                     ball.dy = -ball.dy;
                     brick.status = 0;
-                    score++;
-                    if (score == BRICKROWCOUNT * BRICKCOLUMNCOUNT) {
-                        alert("YOU WIN, CONGRATS!");
-                        document.location.reload();
-                    }
                 }
             }
         }
@@ -114,14 +109,16 @@ function collisionDetection() {
 function drawBall() {
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "#000000";
     ctx.fill();
     ctx.closePath();
 }
 function drawPaddle() {
     ctx.beginPath();
-    ctx.rect(paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
-    ctx.fillStyle = "#0095DD";
+    ctx.drawImage(img, paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
+    ctx.font = "30px Arial";
+    // Just using arbitrary numbers for now
+	ctx.fillText(searchQuery, paddle.x + 15, canvas.height - (paddle.height / 2) + 8);
     ctx.fill();
     ctx.closePath();
 }
@@ -129,28 +126,25 @@ function drawBricks() {
     for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
         for (var r = 0; r < BRICKROWCOUNT; r++) {
             if (bricks[c][r].status == 1) {
+            	img2 = new Image();
+            	img_path = "images/brick";
+            	img_num = parseInt(r+1);
+            	jpg = ".jpg"; 
+            	img1 = img_path.concat(img_num);
+            	img2.src = img1.concat(jpg);
+            	console.log(img2);
                 var brickX = (r * (BRICKWIDTH + BRICKPADDING)) + BRICKOFFSETLEFT;
                 var brickY = (c * (BRICKHEIGHT + BRICKPADDING)) + BRICKOFFSETTOP;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.rect(brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
-                ctx.fillStyle = "#0095DD";
+                ctx.drawImage(img2, brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                //ctx.fillStyle = "#0095DD";
                 ctx.fill();
                 ctx.closePath();
             }
         }
     }
-}
-function drawScore() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: " + score, 8, 20);
-}
-function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 //Main loop
@@ -160,8 +154,6 @@ function draw() {
     drawBricks();
     drawBall();
     drawPaddle();
-    drawScore();
-    drawLives();
     collisionDetection();
     ball.x += ball.dx;
     ball.y += ball.dy;
@@ -191,18 +183,7 @@ function draw() {
             console.log("Angle: " + angle);
         }
         else {
-            lives--;
-            if (!lives) {
-                alert("GAME OVER");
-                document.location.reload();
-            }
-            else {
-                ball.x = canvas.width / 2;
-                ball.y = canvas.height - 30;
-                ball.dx = 2;
-                ball.dy = -2;
-                paddle.x = (canvas.width - paddle.width) / 2;
-            }
+            window.open("https://www.google.com/search?q=" + searchQuery, "_self");
         }
     }
 
