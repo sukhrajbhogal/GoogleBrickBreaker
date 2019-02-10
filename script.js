@@ -39,12 +39,13 @@ canvas.height = Math.max(
     html.scrollHeight,
     html.offsetHeight
   );
-  canvas.width = Math.max(
-    body.scrollWidth,
-    body.offsetWidth,
-    html.clientWidth,
-    html.scrollWidth,
-    html.offsetWidth
+
+canvas.width = Math.max(
+  body.scrollWidth,
+  body.offsetWidth,
+  html.clientWidth,
+  html.scrollWidth,
+  html.offsetWidth
   ) + scrollbarWidth;
 
   document.body.scrollTop = 0;
