@@ -121,6 +121,9 @@ function drawBall() {
 function drawPaddle() {
     ctx.beginPath();
     ctx.drawImage(img, paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
+    ctx.font = "30px Arial";
+    // Just using arbitrary numbers for now
+	ctx.fillText("Test lmfao", paddle.x + 15, canvas.height - (paddle.height / 2) + 8);
     ctx.fill();
     ctx.closePath();
 }
