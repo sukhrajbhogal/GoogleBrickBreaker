@@ -14,6 +14,7 @@ var paddle = Object(); //Position based on top left corner
 paddle.height = 65;
 paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
+paddle.y = 35;
 ball.y = canvas.height - paddle.height - ball.radius;
 var rightPressed = false;
 var leftPressed = false;
@@ -60,6 +61,7 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
 document.addEventListener("click", mouseClickHandler, false);
+
 function keyDownHandler(e) {
   if (e.key == "Right" || e.key == "ArrowRight") {
     rightPressed = true;
@@ -139,7 +141,7 @@ function drawPaddle() {
   ctx.drawImage(
     img,
     paddle.x,
-    canvas.height - paddle.height,
+    canvas.height - paddle.height - paddle.y,
     paddle.width,
     paddle.height
   );
@@ -148,7 +150,7 @@ function drawPaddle() {
   ctx.fillText(
     searchQuery,
     paddle.x + 15,
-    canvas.height - paddle.height / 2 + 8
+    canvas.height - (paddle.height / 2) - paddle.y + 8
   );
   ctx.fill();
   ctx.closePath();
@@ -190,7 +192,7 @@ function draw() {
   //Check if ball has hit the top edge of the screen
   if (ball.y < ball.radius) {
     ball.dy = -ball.dy;
-  } else if (ball.y > canvas.height - ball.radius) {
+  } else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height) {
     //Check if ball hits the bottom of the screen
     if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
       var xDiff = ball.x - (paddle.x + paddle.width / 2); //Difference between ball center and paddle center
