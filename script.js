@@ -28,6 +28,7 @@ var brickimg = [];
 var searchQuery = "";
 var searched = false;
 var clicked = false;
+var scrollbarWidth = 17;
 var body = document.body;
 var html = document.documentElement;
 
@@ -44,7 +45,7 @@ canvas.height = Math.max(
     html.clientWidth,
     html.scrollWidth,
     html.offsetWidth
-  );
+  ) + scollbarWidth;
 
   document.body.scrollTop = 0;
   document.body.style.overflow = 'hidden';
