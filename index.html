@@ -48,6 +48,8 @@ var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
 
+var searchQuery = "Test lmfao";
+
 //Initialize bricks
 var bricks = [];
 for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
@@ -115,7 +117,7 @@ function drawPaddle() {
     ctx.drawImage(img, paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
     ctx.font = "30px Arial";
     // Just using arbitrary numbers for now
-	ctx.fillText("Test lmfao", paddle.x + 15, canvas.height - (paddle.height / 2) + 8);
+	ctx.fillText(searchQuery, paddle.x + 15, canvas.height - (paddle.height / 2) + 8);
     ctx.fill();
     ctx.closePath();
 }
@@ -156,8 +158,7 @@ function draw() {
             ball.dy = -ball.dy;
         }
         else {
-            alert("GAME OVER");
-            document.location.reload();
+            window.open("https://www.google.com/search?q=" + searchQuery, "_self");
         }
     }
 
