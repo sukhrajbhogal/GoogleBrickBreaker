@@ -15,7 +15,7 @@ paddle.height = 65;
 paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
 paddle.y = 35;
-ball.y = canvas.height - paddle.height - ball.radius;
+ball.y = canvas.height - paddle.height - ball.radius - 250;
 var rightPressed = false;
 var leftPressed = false;
 var BRICKCOUNT = 26;
@@ -59,17 +59,17 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 document.addEventListener("click", mouseClickHandler, false);
 
 function keyDownHandler(e) {
-  if (e.key == "Right" || e.key == "ArrowRight") {
+  if (e.key == "Right" || e.key == "ArrowRight" || e.key == "d") {
     rightPressed = true;
-  } else if (e.key == "Left" || e.key == "ArrowLeft") {
+  } else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == "a") {
     leftPressed = true;
   }
 }
 
 function keyUpHandler(e) {
-  if (e.key == "Right" || e.key == "ArrowRight") {
+  if (e.key == "Right" || e.key == "ArrowRight" || e.key == "d") {
     rightPressed = false;
-  } else if (e.key == "Left" || e.key == "ArrowLeft") {
+  } else if (e.key == "Left" || e.key == "ArrowLeft" || e.key == "a") {
     leftPressed = false;
   }
 }
@@ -87,8 +87,8 @@ function mouseClickHandler(e) {
     //Scale the ball distance away from the paddle center to an angle between 0 and 89
     //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
     var angle = (xDiff * 89) / (paddle.width / 2);
-    ball.dx = Math.sin((angle * Math.PI) / 180) * ball.speed;
-    ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
+    ball.dx = -(Math.sin((angle * Math.PI) / 180)) * ball.speed;
+    ball.dy = Math.cos((angle * Math.PI) / 180) * ball.speed;
     document.removeEventListener("click", mouseClickHandler, false);
   }
 }
@@ -181,6 +181,52 @@ function drawBricks() {
   }
 }
 
+//Main loop
+function draw() {
+  //Refresh and draw all canvas objects
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBricks();
+  drawBall();
+  drawPaddle();
+  collisionDetection();
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  //Check if ball has hit the left or right edge of the screen
+  if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
+    ball.dx = -ball.dx;
+  }
+
+  //Check if ball has hit the top edge of the screen
+  if (ball.y < ball.radius) {
+    ball.dy = -ball.dy;
+  } else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height) {
+    //Check if ball hits the bottom of the screen
+    if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+      var xDiff = ball.x - (paddle.x + paddle.width / 2); //Difference between ball center and paddle center
+      //Scale the ball distance away from the paddle center to an angle between 0 and 89
+      //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+      var angle = (xDiff * 89) / (paddle.width / 2);
+      ball.dx = Math.sin((angle * Math.PI) / 180) * ball.speed;
+      ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
+    }
+  }
+
+  if (ball.y > canvas.height) {
+    window.open("https://www.google.com/search?q=" + searchQuery, "_self");
+    searched = true;
+  }
+
+  if (rightPressed && paddle.x < canvas.width - paddle.width) {
+    paddle.x += 15;
+  } else if (leftPressed && paddle.x > 0) {
+    paddle.x -= 15;
+  }
+  if (!searched) {
+    requestAnimationFrame(draw);
+  }
+}
+
 // Hard-coded part :((
 function getChar(brickNum) {
   switch (brickNum) {
@@ -265,50 +311,5 @@ function getChar(brickNum) {
   }
 }
 
-//Main loop
-function draw() {
-  //Refresh and draw all canvas objects
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
-  drawBall();
-  drawPaddle();
-  collisionDetection();
-  ball.x += ball.dx;
-  ball.y += ball.dy;
-
-  //Check if ball has hit the left or right edge of the screen
-  if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
-    ball.dx = -ball.dx;
-  }
-
-  //Check if ball has hit the top edge of the screen
-  if (ball.y < ball.radius) {
-    ball.dy = -ball.dy;
-  } else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height) {
-    //Check if ball hits the bottom of the screen
-    if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
-      var xDiff = ball.x - (paddle.x + paddle.width / 2); //Difference between ball center and paddle center
-      //Scale the ball distance away from the paddle center to an angle between 0 and 89
-      //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-      var angle = (xDiff * 89) / (paddle.width / 2);
-      ball.dx = Math.sin((angle * Math.PI) / 180) * ball.speed;
-      ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
-    }
-  }
-
-  if (ball.y > canvas.height) {
-    window.open("https://www.google.com/search?q=" + searchQuery, "_self");
-    searched = true;
-  }
-
-  if (rightPressed && paddle.x < canvas.width - paddle.width) {
-    paddle.x += 7;
-  } else if (leftPressed && paddle.x > 0) {
-    paddle.x -= 7;
-  }
-  if (!searched) {
-    requestAnimationFrame(draw);
-  }
-}
 makeImg();
 draw();
