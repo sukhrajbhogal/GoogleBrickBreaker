@@ -179,5 +179,4 @@ function draw() {
     }
 }
 
-makeImg();
 draw();
