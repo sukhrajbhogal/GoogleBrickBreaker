@@ -91,7 +91,6 @@ function makeImg() {
         img1 = img_path.concat(img_num);
         img2.src = img1.concat(jpg);
         brickimg.push(img2);
-        consolelo
     }
         
 }
