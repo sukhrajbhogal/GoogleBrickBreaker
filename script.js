@@ -18,13 +18,12 @@ paddle.y = 35;
 ball.y = canvas.height - paddle.height - ball.radius;
 var rightPressed = false;
 var leftPressed = false;
-var BRICKROWCOUNT = 26;
-var BRICKCOLUMNCOUNT = 1;
-var BRICKWIDTH = 43;
-var BRICKHEIGHT = 20;
+var BRICKCOUNT = 26;
+var BRICKWIDTH = 60;
+var BRICKHEIGHT = 60;
 var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
-var BRICKOFFSETLEFT = 30;
+var BRICKOFFSETLEFT = 400;
 var brickimg = [];
 var searchQuery = "";
 var searched = false;
@@ -49,11 +48,8 @@ canvas.width = Math.max(
 
 //Initialize bricks
 var bricks = [];
-for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
-  bricks[c] = [];
-  for (var r = 0; r < BRICKROWCOUNT; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 1, char: String.fromCharCode(r + 97) };
-  }
+for (var b = 0; b < BRICKCOUNT; b++) {
+  bricks[b] = { x: 0, y: 0, status: 1, char: String.fromCharCode(b + 97) };
 }
 
 //Add controls
@@ -98,29 +94,27 @@ function mouseClickHandler(e) {
 }
 //Adding collision for bricks
 function collisionDetection() {
-  for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
-    for (var r = 0; r < BRICKROWCOUNT; r++) {
-      var brick = bricks[c][r];
-      if (brick.status == 1) {
-        if (
-          ball.y + ball.radius > brick.y &&
-          ball.y - ball.radius < brick.y + BRICKHEIGHT &&
-          ball.x > brick.x &&
-          ball.x < brick.x + BRICKWIDTH
-        ) {
-          ball.dy = -ball.dy;
-          brick.status = 0;
-          searchQuery += brick.char;
-        } else if (
-          ball.x + ball.radius > brick.x &&
-          ball.x - ball.radius < brick.x + BRICKWIDTH &&
-          ball.y > brick.y &&
-          ball.y < brick.y + BRICKHEIGHT
-        ) {
-          ball.dx = -ball.dx;
-          brick.status = 0;
-          searchQuery += brick.char;
-        }
+  for (var b = 0; b < BRICKCOUNT; b++) {
+    var brick = bricks[b];
+    if (brick.status == 1) {
+      if (
+        ball.y + ball.radius > brick.y &&
+        ball.y - ball.radius < brick.y + BRICKHEIGHT &&
+        ball.x > brick.x &&
+        ball.x < brick.x + BRICKWIDTH
+      ) {
+        ball.dy = -ball.dy;
+        brick.status = 0;
+        searchQuery += brick.char;
+      } else if (
+        ball.x + ball.radius > brick.x &&
+        ball.x - ball.radius < brick.x + BRICKWIDTH &&
+        ball.y > brick.y &&
+        ball.y < brick.y + BRICKHEIGHT
+      ) {
+        ball.dx = -ball.dx;
+        brick.status = 0;
+        searchQuery += brick.char;
       }
     }
   }
@@ -165,18 +159,24 @@ function drawPaddle() {
   ctx.closePath();
 }
 function drawBricks() {
-  for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
-    for (var r = 0; r < BRICKROWCOUNT; r++) {
-      if (bricks[c][r].status == 1) {
-        var brickX = r * (BRICKWIDTH + BRICKPADDING) + BRICKOFFSETLEFT;
-        var brickY = c * (BRICKHEIGHT + BRICKPADDING) + BRICKOFFSETTOP;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
-        ctx.beginPath();
-        ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
-        ctx.fill();
-        ctx.closePath();
+  var yOffset = 0;
+  var weirdassXOffset = 0;
+  var keyboardOffset = 0;
+  for (var b = 0; b < BRICKCOUNT; b++) {
+    if (bricks[b].status == 1) {
+      if (b == 10 || b == 19) {
+        yOffset++;
+        weirdassXOffset = b;
+        keyboardOffset += 15;
       }
+      var brickX = (b - weirdassXOffset) * (BRICKWIDTH + BRICKPADDING) + BRICKOFFSETLEFT + keyboardOffset;
+      var brickY = yOffset * (BRICKHEIGHT + BRICKPADDING) + BRICKOFFSETTOP;
+      bricks[b].x = brickX;
+      bricks[b].y = brickY;
+      ctx.beginPath();
+      ctx.drawImage(brickimg[b], brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
+      ctx.fill();
+      ctx.closePath();
     }
   }
 }
@@ -184,7 +184,6 @@ function drawBricks() {
 //Main loop
 function draw() {
   //Refresh and draw all canvas objects
-  console.log(document);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawBall();
