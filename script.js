@@ -24,7 +24,7 @@ var BRICKWIDTH = 60;
 var BRICKHEIGHT = 60;
 var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
-var BRICKOFFSETLEFT = (canvas.width - 10*BRICKWIDTH-9*BRICKPADDING)/2;;
+var BRICKOFFSETLEFT = (canvas.width - 10*BRICKWIDTH-9*BRICKPADDING)/2;
 var brickimg = [];
 var searchQuery = "";
 var searched = false;
@@ -193,6 +193,11 @@ function drawBricks() {
 function draw() {
   //Refresh and draw all canvas objects
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.canvas.width  = window.innerWidth;
+  BRICKOFFSETLEFT = (canvas.width - 10*BRICKWIDTH-9*BRICKPADDING)/2;
+  if (!clicked) {
+    ball.x = canvas.width / 2;
+  }
   drawBricks();
   drawBall();
   drawPaddle();
