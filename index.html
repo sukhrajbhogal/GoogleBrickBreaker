@@ -48,9 +48,6 @@ var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
 
-var score = 0;
-var lives = 1;
-
 //Initialize bricks
 var bricks = [];
 for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
@@ -99,11 +96,6 @@ function collisionDetection() {
                 if (ball.x > brick.x && ball.x < brick.x + BRICKWIDTH && ball.y > brick.y && ball.y < brick.y + BRICKHEIGHT) {
                     ball.dy = -ball.dy;
                     brick.status = 0;
-                    score++;
-                    if (score == BRICKROWCOUNT * BRICKCOLUMNCOUNT) {
-                        alert("YOU WIN, CONGRATS!");
-                        document.location.reload();
-                    }
                 }
             }
         }
@@ -114,7 +106,7 @@ function collisionDetection() {
 function drawBall() {
     ctx.beginPath();
     ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    ctx.fillStyle = "#0095DD";
+    ctx.fillStyle = "#000000";
     ctx.fill();
     ctx.closePath();
 }
@@ -137,22 +129,11 @@ function drawBricks() {
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
                 ctx.rect(brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
-                ctx.fillStyle = "#0095DD";
                 ctx.fill();
                 ctx.closePath();
             }
         }
     }
-}
-function drawScore() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Score: " + score, 8, 20);
-}
-function drawLives() {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 //Main loop
@@ -162,8 +143,6 @@ function draw() {
     drawBricks();
     drawBall();
     drawPaddle();
-    drawScore();
-    drawLives();
     collisionDetection();
 
     if (ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
@@ -177,18 +156,8 @@ function draw() {
             ball.dy = -ball.dy;
         }
         else {
-            lives--;
-            if (!lives) {
-                alert("GAME OVER");
-                document.location.reload();
-            }
-            else {
-                ball.x = canvas.width / 2;
-                ball.y = canvas.height - 30;
-                ball.dx = 3;
-                ball.dy = -3;
-                paddle.x = (canvas.width - paddle.width) / 2;
-            }
+            alert("GAME OVER");
+            document.location.reload();
         }
     }
 
