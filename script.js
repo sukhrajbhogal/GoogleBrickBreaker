@@ -86,14 +86,12 @@ function makeImg() {
     for (var i = 1; i < 27; i++) {
         img2 = new Image();
         img_path = "images/brick";
-        img_num = parseInt(i);
-        jpg = ".jpg"; 
-        img1 = img_path.concat(img_num);
-        img2.src = img1.concat(jpg);
-        console.log("what " + img2);
+        img_path = img_path.concat(parseInt(i));
+        img_path = img_path.concat(".jpg");
+        img2.src = img_path;
+        console.log(img2);
         brickimg.push(img2);
     }
-        
 }
 
 //Draw all the objects
@@ -122,8 +120,8 @@ function drawBricks() {
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
                 console.log(brickimg[r]);
+                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
                 ctx.fill();
                 ctx.closePath();
             }
@@ -178,5 +176,5 @@ function draw() {
         requestAnimationFrame(draw);
     }
 }
-
+makeImg();
 draw();
