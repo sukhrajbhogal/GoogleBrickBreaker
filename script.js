@@ -28,17 +28,17 @@ var brickimg = [];
 var searchQuery = "";
 var searched = false;
 var clicked = false;
-var scrollbarWidth = 17;
+var scrollbarWidth = 14;
 var body = document.body;
 var html = document.documentElement;
 
 canvas.height = Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight
-  );
+  body.scrollHeight,
+  body.offsetHeight,
+  html.clientHeight,
+  html.scrollHeight,
+  html.offsetHeight
+);
 
 canvas.width = Math.max(
   body.scrollWidth,
@@ -46,10 +46,11 @@ canvas.width = Math.max(
   html.clientWidth,
   html.scrollWidth,
   html.offsetWidth
-  ) + scrollbarWidth;
+) + scrollbarWidth;
 
-  document.body.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
+document.body.scrollTop = 0;
+document.body.scrollRight = 0;
+document.body.style.overflow = 'hidden';
 
 //Initialize bricks
 var bricks = [];
@@ -199,7 +200,7 @@ function draw() {
   ball.y += ball.dy;
 
   //Check if ball has hit the left or right edge of the screen
-  if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
+  if (ball.x > canvas.width - (ball.radius * 2) || ball.x < (ball.radius * 2)) {
     ball.dx = -ball.dx;
   }
 
