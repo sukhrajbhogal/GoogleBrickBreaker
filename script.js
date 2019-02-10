@@ -1,6 +1,8 @@
 //Get the canvas area. Set constants
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
+ctx.canvas.width  = window.innerWidth;
+ctx.canvas.height = window.innerHeight;
 var ball = new Object(); //Position based on center
 var img = new Image();
 img.src = "images/bar.png";
@@ -256,10 +258,10 @@ function draw() {
     ctx.stroke();
     ctx.font="30px Comic Sans MS";
     ctx.fillText("Search", 30, canvas.height-60);
-    ctx.fillText("Search", canvas.width-300, canvas.height-60);
+    ctx.fillText("Search", canvas.width-170, canvas.height-60);
     ctx.textAlign = "center";
-    ctx.fillText("V", 75, canvas.height-30);
-    ctx.fillText("V", canvas.width-255, canvas.height-30);
+    ctx.fillText("V", 80, canvas.height-30);
+    ctx.fillText("V", canvas.width-120, canvas.height-30);
     ctx.textAlign = "left";
   }
 }
