@@ -2,7 +2,6 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.canvas.width  = window.innerWidth;
-ctx.canvas.height = window.innerHeight;
 var ball = new Object(); //Position based on center
 var img = new Image();
 img.src = "images/bar.png";
@@ -25,7 +24,7 @@ var BRICKWIDTH = 60;
 var BRICKHEIGHT = 60;
 var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
-var BRICKOFFSETLEFT = 400;
+var BRICKOFFSETLEFT = (canvas.width - 10*BRICKWIDTH-9*BRICKPADDING)/2;;
 var brickimg = [];
 var searchQuery = "";
 var searched = false;
