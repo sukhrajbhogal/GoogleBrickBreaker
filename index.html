@@ -32,9 +32,9 @@ ball.radius = 10;
 //Ball position
 ball.x = canvas.width / 2;
 ball.y = canvas.height - 30;
-ball.speed = 2;
-ball.dx = 2;
-ball.dy = -2;
+ball.speed = 10;
+ball.dx = 5;
+ball.dy = -5;
 var paddle = Object(); //Position based on top left corner
 paddle.height = 65;
 paddle.width = 600;
@@ -50,6 +50,7 @@ var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
 
 var searchQuery = "Test lmfao";
+var searched = false;
 
 //Initialize bricks
 var bricks = [];
@@ -183,6 +184,7 @@ function draw() {
         }
         else {
             window.open("https://www.google.com/search?q=" + searchQuery, "_self");
+            searched = true;
         }
     }
 
@@ -192,7 +194,9 @@ function draw() {
     else if (leftPressed && paddle.x > 0) {
         paddle.x -= 7;
     }
-    requestAnimationFrame(draw);
+    if (!searched) {
+    	requestAnimationFrame(draw);
+    }
 }
 
 draw();
