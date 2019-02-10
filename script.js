@@ -49,7 +49,7 @@ canvas.width = Math.max(
 //Initialize bricks
 var bricks = [];
 for (var b = 0; b < BRICKCOUNT; b++) {
-  bricks[b] = { x: 0, y: 0, status: 1, char: String.fromCharCode(b + 97) };
+  bricks[b] = { x: 0, y: 0, status: 1, char: getChar(b) };
 }
 
 //Add controls
@@ -163,12 +163,12 @@ function drawBricks() {
   var weirdassXOffset = 0;
   var keyboardOffset = 0;
   for (var b = 0; b < BRICKCOUNT; b++) {
+    if (b == 10 || b == 19) {
+      yOffset++;
+      weirdassXOffset = b;
+      keyboardOffset += 15;
+    }
     if (bricks[b].status == 1) {
-      if (b == 10 || b == 19) {
-        yOffset++;
-        weirdassXOffset = b;
-        keyboardOffset += 15;
-      }
       var brickX = (b - weirdassXOffset) * (BRICKWIDTH + BRICKPADDING) + BRICKOFFSETLEFT + keyboardOffset;
       var brickY = yOffset * (BRICKHEIGHT + BRICKPADDING) + BRICKOFFSETTOP;
       bricks[b].x = brickX;
@@ -178,6 +178,90 @@ function drawBricks() {
       ctx.fill();
       ctx.closePath();
     }
+  }
+}
+
+// Hard-coded part :((
+function getChar(brickNum) {
+  switch (brickNum) {
+    case 0:
+      return "q";
+      break;
+    case 1:
+      return "w";
+      break;
+    case 2:
+      return "e";
+      break;
+    case 3:
+      return "r";
+      break;
+    case 4:
+      return "t";
+      break;
+    case 5:
+      return "y";
+      break;
+    case 6:
+      return "u";
+      break;
+    case 7:
+      return "i";
+      break;
+    case 8:
+      return "o";
+      break;
+    case 9:
+      return "p";
+      break;
+    case 10:
+      return "a";
+      break;
+    case 11:
+      return "s";
+      break;
+    case 12:
+      return "d";
+      break;
+    case 13:
+      return "f";
+      break;
+    case 14:
+      return "g";
+      break;
+    case 15:
+      return "h";
+      break;
+    case 16:
+      return "j";
+      break;
+    case 17:
+      return "k";
+      break;
+    case 18:
+      return "l";
+      break;
+    case 19:
+      return "z";
+      break;
+    case 20:
+      return "x";
+      break;
+    case 21:
+      return "c";
+      break;
+    case 22:
+      return "v";
+      break;
+    case 23:
+      return "b";
+      break;
+    case 24:
+      return "n";
+      break;
+    case 25:
+      return "m";
+      break;
   }
 }
 
