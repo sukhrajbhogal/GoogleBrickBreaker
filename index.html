@@ -128,13 +128,20 @@ function drawBricks() {
     for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
         for (var r = 0; r < BRICKROWCOUNT; r++) {
             if (bricks[c][r].status == 1) {
+            	img2 = new Image();
+            	img_path = "images/brick";
+            	img_num = parseInt(r+1);
+            	jpg = ".jpg"; 
+            	img1 = img_path.concat(img_num);
+            	img2.src = img1.concat(jpg);
+            	console.log(img2);
                 var brickX = (r * (BRICKWIDTH + BRICKPADDING)) + BRICKOFFSETLEFT;
                 var brickY = (c * (BRICKHEIGHT + BRICKPADDING)) + BRICKOFFSETTOP;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.rect(brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
-                ctx.fillStyle = "#0095DD";
+                ctx.drawImage(img2, brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                //ctx.fillStyle = "#0095DD";
                 ctx.fill();
                 ctx.closePath();
             }
