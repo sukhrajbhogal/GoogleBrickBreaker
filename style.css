@@ -2,22 +2,3 @@
     padding: 0;
     margin: 0;
 }
-
-canvas {
-    background: #ffffff;
-    display: block;
-    margin: 0 auto;
-}
-
-html, body {
-	overflow: hidden;
-	height: 100%;
-	width: 100%;
-}
-
-#myCanvas {
-	position: absolute;
-	display: block;
-	height: 100%;
-	width: 100%;
-}
