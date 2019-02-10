@@ -15,7 +15,7 @@ paddle.height = 65;
 paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
 paddle.y = 35;
-ball.y = canvas.height - 2*paddle.height - ball.radius;
+ball.y = canvas.height - 1.5*paddle.height - ball.radius;
 var rightPressed = false;
 var leftPressed = false;
 var BRICKCOUNT = 26;
@@ -27,7 +27,7 @@ var BRICKOFFSETLEFT = 400;
 var brickimg = [];
 var searchQuery = "";
 var searched = false;
-
+var clicked = false;
 var body = document.body;
 var html = document.documentElement;
 
@@ -90,6 +90,7 @@ function mouseClickHandler(e) {
     ball.dx = Math.sin((angle * Math.PI) / 180) * ball.speed;
     ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
     document.removeEventListener("click", mouseClickHandler, false);
+    clicked = true;
   }
 }
 //Adding collision for bricks
@@ -200,7 +201,7 @@ function draw() {
   //Check if ball has hit the top edge of the screen
   if (ball.y < ball.radius) {
     ball.dy = -ball.dy;
-  } else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height) {
+  } else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height && ball.y - ball.dy < canvas.height - ball.radius - paddle.y - paddle.height ) {
     //Check if ball hits the bottom of the screen
     if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
       var xDiff = ball.x - (paddle.x + paddle.width / 2); //Difference between ball center and paddle center
@@ -224,6 +225,25 @@ function draw() {
   }
   if (!searched) {
     requestAnimationFrame(draw);
+  }
+  if (!clicked){
+    if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+        var xDiff = ball.x - (paddle.x + paddle.width / 2); //Difference between ball center and paddle center
+        //Scale the ball distance away from the paddle center to an angle between 0 and 89
+        //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+        var angle = (xDiff * 89) / (paddle.width / 2);
+
+      }
+    ctx.beginPath();
+    ctx.moveTo(ball.x, ball.y);
+    var x = Math.sin((angle * Math.PI) / 180) * 200;
+    var y = -(Math.cos((angle * Math.PI) / 180) * 200);
+    ctx.lineTo(ball.x + x, ball.y + y);
+    ctx.stroke();
+    ctx.textAlign = "center";
+    ctx.fillText("Click to Start", canvas.width/2, canvas.height/2);
+    ctx.fillText("Let the Ball Fall to Search", canvas.width/2, canvas.height/2+30);
+    ctx.textAlign = "left";
   }
 }
 
