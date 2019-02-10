@@ -159,7 +159,7 @@ function drawPaddle() {
   ctx.fillText(
     searchQuery,
     paddle.x + 15,
-    canvas.height - (paddle.height / 2) - paddle.y + 8
+    canvas.height - paddle.height / 2 - paddle.y + 8
   );
   ctx.fill();
   ctx.closePath();
@@ -184,7 +184,6 @@ function drawBricks() {
 //Main loop
 function draw() {
   //Refresh and draw all canvas objects
-  console.log(document);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBricks();
   drawBall();
@@ -210,10 +209,12 @@ function draw() {
       var angle = (xDiff * 89) / (paddle.width / 2);
       ball.dx = Math.sin((angle * Math.PI) / 180) * ball.speed;
       ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
-    } else {
-      window.open("https://www.google.com/search?q=" + searchQuery, "_self");
-      searched = true;
     }
+  }
+
+  if (ball.y > canvas.height) {
+    window.open("https://www.google.com/search?q=" + searchQuery, "_self");
+    searched = true;
   }
 
   if (rightPressed && paddle.x < canvas.width - paddle.width) {
