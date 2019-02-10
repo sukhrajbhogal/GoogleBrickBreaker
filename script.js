@@ -217,6 +217,15 @@ function draw() {
       ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
     }
   }
+  //&& ball.x < paddle.x + paddle.width
+  else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height && ball.x+ball.radius > paddle.x && ball.x+ball.radius - Math.abs(ball.dx) < paddle.x){
+      ball.dx = -Math.abs(ball.dx);
+      console.log("Left");
+  }
+  else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height && ball.x-ball.radius < paddle.x + paddle.width && ball.x-ball.radius + Math.abs(ball.dx) > paddle.x + paddle.width){
+    console.log("Right");
+    ball.dx = Math.abs(ball.dx);
+    }
 
   if (ball.y > canvas.height) {
     window.open("https://www.google.com/search?q=" + searchQuery, "_self");
@@ -237,7 +246,6 @@ function draw() {
         //Scale the ball distance away from the paddle center to an angle between 0 and 89
         //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
         var angle = (xDiff * 89) / (paddle.width / 2);
-
       }
     ctx.beginPath();
     ctx.moveTo(ball.x, ball.y);
