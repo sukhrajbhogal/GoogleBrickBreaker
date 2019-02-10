@@ -45,7 +45,7 @@ canvas.height = Math.max(
     html.clientWidth,
     html.scrollWidth,
     html.offsetWidth
-  ) + scollbarWidth;
+  ) + scrollbarWidth;
 
   document.body.scrollTop = 0;
   document.body.style.overflow = 'hidden';
