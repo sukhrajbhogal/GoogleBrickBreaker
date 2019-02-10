@@ -28,6 +28,12 @@ var brickimg = [];
 var searchQuery = "";
 var searched = false;
 
+var body = document.body;
+var html = document.documentElement;
+
+canvas.height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+canvas.width = Math.max(body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollWidth, html.offsetWidth);
+
 //Initialize bricks
 var bricks = [];
 for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
@@ -142,6 +148,7 @@ function drawBricks() {
 //Main loop
 function draw() {
     //Refresh and draw all canvas objects
+    console.log(document);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBricks();
     drawBall();
