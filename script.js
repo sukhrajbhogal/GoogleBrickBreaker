@@ -83,6 +83,8 @@ function collisionDetection() {
     }
 }
 
+
+
 //Draw all the objects
 function drawBall() {
     ctx.beginPath();
