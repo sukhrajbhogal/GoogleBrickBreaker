@@ -32,19 +32,22 @@ var body = document.body;
 var html = document.documentElement;
 
 canvas.height = Math.max(
-  body.scrollHeight,
-  body.offsetHeight,
-  html.clientHeight,
-  html.scrollHeight,
-  html.offsetHeight
-);
-canvas.width = Math.max(
-  body.scrollWidth,
-  body.offsetWidth,
-  html.clientWidth,
-  html.scrollWidth,
-  html.offsetWidth
-);
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight
+  );
+  canvas.width = Math.max(
+    body.scrollWidth,
+    body.offsetWidth,
+    html.clientWidth,
+    html.scrollWidth,
+    html.offsetWidth
+  );
+
+  document.body.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
 
 //Initialize bricks
 var bricks = [];
@@ -200,7 +203,7 @@ function draw() {
   //Check if ball has hit the top edge of the screen
   if (ball.y < ball.radius) {
     ball.dy = -ball.dy;
-  } else if (ball.y > canvas.height - ball.radius - paddle.y - paddle.height) {
+  } else if (ball.y > canvas.height - ball.radius * 2 - paddle.y - paddle.height) {
     //Check if ball hits the bottom of the screen
     if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
       var xDiff = ball.x - (paddle.x + paddle.width / 2); //Difference between ball center and paddle center

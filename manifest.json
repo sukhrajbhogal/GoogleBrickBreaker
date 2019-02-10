@@ -4,7 +4,7 @@
     "description": "Make google searches fun with Brick Breaker!",
     "manifest_version": 2,
     "minimum_chrome_version": "46",
-    "content_security_policy": "default-src 'self' 'self' 'sha256-H3cN5wXxKdH0jJ8uF4aJrtKuTrQ7pm0FKgdgNEGXTfk=' 'sha256-6Oq2GxIQ5j/DeOhBLayLpGQgqJPCHox903jWyTfqzjw='",
+    "content_security_policy": "default-src 'self' 'self' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",
     "chrome_url_overrides": {
     	"newtab": "index.html"
     }

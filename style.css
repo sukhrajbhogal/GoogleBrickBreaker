@@ -8,3 +8,16 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+
+html, body {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+#myCanvas {
+	position: absolute;
+	display: block;
+	height: 100%;
+	width: 100%;
+}
