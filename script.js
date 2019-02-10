@@ -7,14 +7,14 @@ img.src = "images/bar.png";
 ball.radius = 10;
 //Ball position
 ball.x = canvas.width / 2;
-ball.y = canvas.height - 30;
 ball.speed = 10;
-ball.dx = Math.sin(Math.PI/4)*ball.speed;
-ball.dy = -ball.dx;
+ball.dx = 0;
+ball.dy = 0;
 var paddle = Object(); //Position based on top left corner
 paddle.height = 65;
 paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
+ball.y = canvas.height - paddle.height-ball.radius;
 var rightPressed = false;
 var leftPressed = false;
 var BRICKROWCOUNT = 26;
@@ -25,7 +25,7 @@ var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
 var brickimg = [];
-var searchQuery = "Test lmfao";
+var searchQuery = "";
 var searched = false;
 
 //Initialize bricks
@@ -33,7 +33,7 @@ var bricks = [];
 for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
     bricks[c] = [];
     for (var r = 0; r < BRICKROWCOUNT; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+        bricks[c][r] = { x: 0, y: 0, status: 1 , char: String.fromCharCode(r+97)};
     }
 }
 
@@ -41,7 +41,7 @@ for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
-
+document.addEventListener("click", mouseClickHandler, false);
 function keyDownHandler(e) {
     if (e.key == "Right" || e.key == "ArrowRight") {
         rightPressed = true;
@@ -67,6 +67,17 @@ function mouseMoveHandler(e) {
     }
 }
 
+function mouseClickHandler(e){
+    if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+        var xDiff = ball.x-(paddle.x+paddle.width/2); //Difference between ball center and paddle center
+        //Scale the ball distance away from the paddle center to an angle between 0 and 89
+        //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+        var angle = ((xDiff) * (89)) / ((paddle.width / 2));
+        ball.dx = Math.sin(angle*Math.PI/180)*ball.speed;
+        ball.dy = -(Math.cos(angle*Math.PI/180)*ball.speed);
+        document.removeEventListener("click", mouseClickHandler, false);
+    }
+}
 //Adding collision for bricks
 function collisionDetection() {
     for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
@@ -76,6 +87,7 @@ function collisionDetection() {
                 if (ball.x > brick.x && ball.x < brick.x + BRICKWIDTH && ball.y > brick.y && ball.y < brick.y + BRICKHEIGHT) {
                     ball.dy = -ball.dy;
                     brick.status = 0;
+                    searchQuery+= brick.char;
                 }
             }
         }
@@ -119,7 +131,7 @@ function drawBricks() {
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT);
                 ctx.fill();
                 ctx.closePath();
             }
