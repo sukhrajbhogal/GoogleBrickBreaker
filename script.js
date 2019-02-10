@@ -86,12 +86,12 @@ function makeImg() {
     for (var i = 1; i < 27; i++) {
         img2 = new Image();
         img_path = "images/brick";
-        img_num = parseInt(r);
+        img_num = parseInt(i);
         jpg = ".jpg"; 
         img1 = img_path.concat(img_num);
         img2.src = img1.concat(jpg);
+        console.log("what " + img2);
         brickimg.push(img2);
-        consolelo
     }
         
 }
@@ -123,6 +123,7 @@ function drawBricks() {
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
                 ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                console.log(brickimg[r]);
                 ctx.fill();
                 ctx.closePath();
             }
