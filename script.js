@@ -101,12 +101,21 @@ function collisionDetection() {
       var brick = bricks[c][r];
       if (brick.status == 1) {
         if (
-          ball.x > brick.x &&
-          ball.x - ball.radius < brick.x + BRICKWIDTH &&
           ball.y + ball.radius > brick.y &&
-          ball.y - ball.radius < brick.y + BRICKHEIGHT
+          ball.y - ball.radius < brick.y + BRICKHEIGHT &&
+          ball.x > brick.x &&
+          ball.x < brick.x + BRICKWIDTH
         ) {
           ball.dy = -ball.dy;
+          brick.status = 0;
+          searchQuery += brick.char;
+        } else if (
+          ball.x + ball.radius > brick.x &&
+          ball.x - ball.radius < brick.x + BRICKWIDTH &&
+          ball.y > brick.y &&
+          ball.y < brick.y + BRICKHEIGHT
+        ) {
+          ball.dx = -ball.dx;
           brick.status = 0;
           searchQuery += brick.char;
         }
