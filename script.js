@@ -82,22 +82,6 @@ function collisionDetection() {
     }
 }
 
-<<<<<<< HEAD
-
-=======
-function makeImg() {
-    for (var i = 1; i < 27; i++) {
-        img2 = new Image();
-        img_path = "images/brick";
-        img_num = parseInt(r);
-        jpg = ".jpg"; 
-        img1 = img_path.concat(img_num);
-        img2.src = img1.concat(jpg);
-        brickimg.push(img2);
-    }
-        
-}
->>>>>>> d7f570adc1eb58506ba34e95456d6b893f746674
 
 //Draw all the objects
 function drawBall() {
@@ -124,8 +108,15 @@ function drawBricks() {
                 var brickY = (c * (BRICKHEIGHT + BRICKPADDING)) + BRICKOFFSETTOP;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
+                img2 = new Image();
+                img_path = "images/brick";
+                img_num = parseInt(r);
+                jpg = ".jpg"; 
+                img1 = img_path.concat(img_num);
+                img2.src = img1.concat(jpg);
+                brickimg.push(img2);
                 ctx.beginPath();
-                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                ctx.drawImage(img2, brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
                 ctx.fill();
                 ctx.closePath();
             }
@@ -181,5 +172,4 @@ function draw() {
     }
 }
 
-makeImg();
 draw();
