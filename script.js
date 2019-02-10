@@ -84,12 +84,11 @@ function collisionDetection() {
 
 function makeImg() {
     for (var i = 1; i < 27; i++) {
-        img2 = new Image();
-        img_path = "images/brick";
+        var img2 = new Image();
+        var img_path = "images/brick";
         img_path = img_path.concat(parseInt(i));
         img_path = img_path.concat(".jpg");
         img2.src = img_path;
-        console.log(img2);
         brickimg.push(img2);
     }
 }
@@ -120,7 +119,6 @@ function drawBricks() {
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                console.log(brickimg[r]);
                 ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
                 ctx.fill();
                 ctx.closePath();
@@ -157,8 +155,6 @@ function draw() {
             var angle = ((xDiff) * (89)) / ((paddle.width / 2));
             ball.dx = Math.sin(angle*Math.PI/180)*ball.speed;
             ball.dy = -(Math.cos(angle*Math.PI/180)*ball.speed);
-            console.log(ball.dx);
-            console.log(ball.dy);
         }
         else {
             window.open("https://www.google.com/search?q=" + searchQuery, "_self");
