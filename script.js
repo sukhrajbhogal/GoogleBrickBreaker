@@ -243,9 +243,12 @@ function draw() {
     var y = -(Math.cos((angle * Math.PI) / 180) * 200);
     ctx.lineTo(ball.x + x, ball.y + y);
     ctx.stroke();
+    ctx.font="30px Comic Sans MS";
+    ctx.fillText("Search", 30, canvas.height-60);
+    ctx.fillText("Search", canvas.width-300, canvas.height-60);
     ctx.textAlign = "center";
-    ctx.fillText("Click to Start", canvas.width/2, canvas.height/2);
-    ctx.fillText("Let the Ball Fall to Search", canvas.width/2, canvas.height/2+30);
+    ctx.fillText("V", 75, canvas.height-30);
+    ctx.fillText("V", canvas.width-255, canvas.height-30);
     ctx.textAlign = "left";
   }
 }
