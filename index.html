@@ -26,14 +26,15 @@
 //Get the canvas area. Set constants
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-var ball = new Object();
+var ball = new Object(); //Position based on center
 ball.radius = 10;
 //Ball position
 ball.x = canvas.width / 2;
 ball.y = canvas.height - 30;
+ball.speed = 2;
 ball.dx = 2;
 ball.dy = -2;
-var paddle = Object();
+var paddle = Object(); //Position based on top left corner
 paddle.height = 10;
 paddle.width = 100;
 paddle.x = (canvas.width - paddle.width) / 2;
@@ -162,16 +163,32 @@ function draw() {
     drawScore();
     drawLives();
     collisionDetection();
+    ball.x += ball.dx;
+    ball.y += ball.dy;
 
-    if (ball.x + ball.dx > canvas.width - ball.radius || ball.x + ball.dx < ball.radius) {
+    //Check if ball has hit the left or right edge of the screen
+    if (ball.x > canvas.width - ball.radius || ball.x < ball.radius) {
         ball.dx = -ball.dx;
     }
-    if (ball.y + ball.dy < ball.radius) {
+
+    //Check if ball has hit the top edge of the screen
+    if (ball.y < ball.radius) {
         ball.dy = -ball.dy;
     }
-    else if (ball.y + ball.dy > canvas.height - ball.radius) {
+    else if (ball.y > canvas.height - ball.radius) {//Check if ball hits the bottom of the screen
         if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
-            ball.dy = -ball.dy;
+            var xDiff = ball.x-(paddle.x+paddle.width/2); //Difference between ball center and paddle center
+            var neg = 1;
+            if (xDiff<0){
+                neg = -1;
+            }
+            xDiff = Math.abs(xDiff);
+            console.log(xDiff);
+            //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
+            var angle = ((xDiff) * (89)) / ((paddle.width / 2));
+            ball.dx = neg*Math.sin(angle*Math.PI/180)*ball.speed;
+            ball.dy = -(Math.cos(angle*Math.PI/180)*ball.speed);
+            console.log("Angle: " + angle);
         }
         else {
             lives--;
@@ -182,8 +199,8 @@ function draw() {
             else {
                 ball.x = canvas.width / 2;
                 ball.y = canvas.height - 30;
-                ball.dx = 3;
-                ball.dy = -3;
+                ball.dx = 2;
+                ball.dy = -2;
                 paddle.x = (canvas.width - paddle.width) / 2;
             }
         }
@@ -195,9 +212,6 @@ function draw() {
     else if (leftPressed && paddle.x > 0) {
         paddle.x -= 7;
     }
-
-    ball.x += ball.dx;
-    ball.y += ball.dy;
     requestAnimationFrame(draw);
 }
 
