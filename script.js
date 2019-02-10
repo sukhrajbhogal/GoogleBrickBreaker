@@ -9,11 +9,10 @@ ball.radius = 10;
 ball.x = canvas.width / 2;
 ball.y = canvas.height - 30;
 ball.speed = 10;
-ball.dx = 5;
-ball.dy = -5;
+ball.dx = Math.sin(Math.PI/4)*ball.speed;
+ball.dy = -ball.dx;
 var paddle = Object(); //Position based on top left corner
 paddle.height = 65;
-// "content_security_policy": "default-src 'self' 'self' 'sha256-H3cN5wXxKdH0jJ8uF4aJrtKuTrQ7pm0FKgdgNEGXTfk=' 'sha256-6Oq2GxIQ5j/DeOhBLayLpGQgqJPCHox903jWyTfqzjw='",
 paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
 var rightPressed = false;
@@ -25,7 +24,7 @@ var BRICKHEIGHT = 20;
 var BRICKPADDING = 10;
 var BRICKOFFSETTOP = 50;
 var BRICKOFFSETLEFT = 30;
-
+var brickimg = [];
 var searchQuery = "Test lmfao";
 var searched = false;
 
@@ -83,6 +82,20 @@ function collisionDetection() {
     }
 }
 
+function makeImg() {
+    for (var i = 1; i < 27; i++) {
+        img2 = new Image();
+        img_path = "images/brick";
+        img_num = parseInt(r);
+        jpg = ".jpg"; 
+        img1 = img_path.concat(img_num);
+        img2.src = img1.concat(jpg);
+        brickimg.push(img2);
+        consolelo
+    }
+        
+}
+
 //Draw all the objects
 function drawBall() {
     ctx.beginPath();
@@ -96,7 +109,7 @@ function drawPaddle() {
     ctx.drawImage(img, paddle.x, canvas.height - paddle.height, paddle.width, paddle.height);
     ctx.font = "30px Arial";
     // Just using arbitrary numbers for now
-	ctx.fillText(searchQuery, paddle.x + 15, canvas.height - (paddle.height / 2) + 8);
+    ctx.fillText(searchQuery, paddle.x + 15, canvas.height - (paddle.height / 2) + 8);
     ctx.fill();
     ctx.closePath();
 }
@@ -104,19 +117,12 @@ function drawBricks() {
     for (var c = 0; c < BRICKCOLUMNCOUNT; c++) {
         for (var r = 0; r < BRICKROWCOUNT; r++) {
             if (bricks[c][r].status == 1) {
-            	img2 = new Image();
-            	img_path = "images/brick";
-            	img_num = parseInt(r+1);
-            	jpg = ".jpg"; 
-            	img1 = img_path.concat(img_num);
-            	img2.src = img1.concat(jpg);
-            	console.log(img2);
                 var brickX = (r * (BRICKWIDTH + BRICKPADDING)) + BRICKOFFSETLEFT;
                 var brickY = (c * (BRICKHEIGHT + BRICKPADDING)) + BRICKOFFSETTOP;
                 bricks[c][r].x = brickX;
                 bricks[c][r].y = brickY;
                 ctx.beginPath();
-                ctx.drawImage(img2, brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
+                ctx.drawImage(brickimg[r], brickX, brickY, BRICKWIDTH, BRICKHEIGHT); 
                 ctx.fill();
                 ctx.closePath();
             }
@@ -147,17 +153,13 @@ function draw() {
     else if (ball.y > canvas.height - ball.radius) {//Check if ball hits the bottom of the screen
         if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
             var xDiff = ball.x-(paddle.x+paddle.width/2); //Difference between ball center and paddle center
-            var neg = 1;
-            if (xDiff<0){
-                neg = -1;
-            }
-            xDiff = Math.abs(xDiff);
-            console.log(xDiff);
+            //Scale the ball distance away from the paddle center to an angle between 0 and 89
             //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
             var angle = ((xDiff) * (89)) / ((paddle.width / 2));
-            ball.dx = neg*Math.sin(angle*Math.PI/180)*ball.speed;
+            ball.dx = Math.sin(angle*Math.PI/180)*ball.speed;
             ball.dy = -(Math.cos(angle*Math.PI/180)*ball.speed);
-            console.log("Angle: " + angle);
+            console.log(ball.dx);
+            console.log(ball.dy);
         }
         else {
             window.open("https://www.google.com/search?q=" + searchQuery, "_self");
@@ -172,8 +174,9 @@ function draw() {
         paddle.x -= 7;
     }
     if (!searched) {
-    	requestAnimationFrame(draw);
+        requestAnimationFrame(draw);
     }
 }
 
+makeImg();
 draw();
