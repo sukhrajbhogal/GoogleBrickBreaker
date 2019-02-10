@@ -15,7 +15,7 @@ paddle.height = 65;
 paddle.width = 600;
 paddle.x = (canvas.width - paddle.width) / 2;
 paddle.y = 35;
-ball.y = canvas.height - paddle.height - ball.radius - 250;
+ball.y = canvas.height - 2*paddle.height - ball.radius;
 var rightPressed = false;
 var leftPressed = false;
 var BRICKCOUNT = 26;
@@ -87,8 +87,8 @@ function mouseClickHandler(e) {
     //Scale the ball distance away from the paddle center to an angle between 0 and 89
     //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
     var angle = (xDiff * 89) / (paddle.width / 2);
-    ball.dx = -(Math.sin((angle * Math.PI) / 180)) * ball.speed;
-    ball.dy = Math.cos((angle * Math.PI) / 180) * ball.speed;
+    ball.dx = Math.sin((angle * Math.PI) / 180) * ball.speed;
+    ball.dy = -(Math.cos((angle * Math.PI) / 180) * ball.speed);
     document.removeEventListener("click", mouseClickHandler, false);
   }
 }
