@@ -169,20 +169,16 @@ function draw() {
     else if (ball.y > canvas.height - ball.radius) {//Check if ball hits the bottom of the screen
         if (ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
             var xDiff = ball.x-(paddle.x+paddle.width/2); //Difference between ball center and paddle center
-            var neg = 1;
-            if (xDiff<0){
-                neg = -1;
-            }
-            xDiff = Math.abs(xDiff);
+            //Scale the ball distance away from the paddle center to an angle between 0 and 89
             //NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
             var angle = ((xDiff) * (89)) / ((paddle.width / 2));
-            ball.dx = neg*Math.sin(angle*Math.PI/180)*ball.speed;
+            ball.dx = Math.sin(angle*Math.PI/180)*ball.speed;
             ball.dy = -(Math.cos(angle*Math.PI/180)*ball.speed);
             console.log(ball.dx);
             console.log(ball.dy);
         }
         else {
-            //window.open("https://www.google.com/search?q=" + searchQuery, "_self");
+            window.open("https://www.google.com/search?q=" + searchQuery, "_self");
             searched = true;
         }
     }
