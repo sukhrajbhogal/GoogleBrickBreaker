@@ -2,7 +2,8 @@
 
 Turn your google searches into a game of Brick Breaker with this useless Chrome extension!
 
-~ made at uOttaHack 2019
+~ made for and WINNER OF the Most Useless Hack at uOttaHack 2019
+--> created as a joke and for fun
 
 ## Description
 
